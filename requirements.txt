@@ -1,0 +1,3 @@
+# Shared by every experiment. An experiment with extra dependencies (drivers,
+# vendor SDKs) lists them in its own folder's requirements.txt.
+labnode @ git+https://github.com/henrybon806/labnode.git@labnode-v0.1.0

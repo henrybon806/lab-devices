@@ -17,7 +17,7 @@ from labnode import Experiment
 from labnode.server import LOOPBACK_HOSTS, TOKEN_ENV, create_app
 
 
-NAME = "template"
+NAME = "my_instrument"
 
 
 class Instrument(Experiment):

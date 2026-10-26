@@ -8,10 +8,12 @@ computer attached to that device. The gantry
 ## Layout
 
 ```text
-_template/        copy this to start a new instrument
-<instrument>/     one folder per instrument
-  node.py           the labnode Experiment subclass and its entry point
-  requirements.txt  optional: drivers or SDKs only this instrument needs
+templates/
+  experiment/       copy to start a new instrument
+  gantry/           copy to gantry/ to start the gantry node
+<device>/         one folder per device (an instrument, or gantry/)
+  node.py           the labnode node and its entry point
+  requirements.txt  optional: drivers or SDKs only this device needs
 requirements.txt  shared dependencies (labnode, pinned to a tag)
 ```
 
@@ -21,13 +23,13 @@ requirements.txt  shared dependencies (labnode, pinned to a tag)
 git clone <this repo> && cd lab-devices
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
-.venv/bin/pip install -r <instrument>/requirements.txt   # if it has one
+.venv/bin/pip install -r <device>/requirements.txt   # if it has one
 ```
 
 ## Run a node
 
 ```bash
-LABNODE_TOKEN=... .venv/bin/python <instrument>/node.py --host 0.0.0.0 --port 8001
+LABNODE_TOKEN=... .venv/bin/python <device>/node.py --host 0.0.0.0 --port 8001
 ```
 
 Listening beyond localhost needs `LABNODE_TOKEN`; the gantry uses the same
@@ -35,9 +37,16 @@ token. Open `http://<host>:<port>/docs` to try the node by hand.
 
 ## Add an instrument
 
-1. Copy `_template/` to a folder named after the instrument.
+1. Copy `templates/experiment/` to a folder named after the instrument.
 2. Set `NAME` and implement `run()` (and `stop()` if the hardware can halt).
 3. Add the node's name, address and bed position to the gantry's presets.
+
+## Add the gantry
+
+1. Copy `templates/gantry/` to `gantry/`.
+2. Implement `move()` and `position()` with calls to the motion controller,
+   plus `pick()`, `place()`, `home()` and `stop()` if the hardware has them.
+3. Run it on the computer wired to the controller (port 8100 by default).
 
 ## Upgrading labnode
 

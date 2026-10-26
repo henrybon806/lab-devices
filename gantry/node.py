@@ -36,17 +36,26 @@ class MotionController(Gantry):
 
     def __init__(self, serial_port):
         self.connection = Connection.open_serial_port(serial_port)
-        device = self.connection.detect_devices()[GANTRY_DEVICE_INDEX]
-        self.x = device.get_lockstep(X_LOCKSTEP)
-        self.y = device.get_axis(Y_AXIS)
-        self.z = device.get_axis(Z_AXIS)
+        self.device = self.connection.detect_devices()[GANTRY_DEVICE_INDEX]
+        # A lockstep group reports its primary (first) axis.
+        x_axis = self.device.get_lockstep(X_LOCKSTEP).get_axis_numbers()[0]
+        self.axes = {"x": x_axis, "y": Y_AXIS, "z": Z_AXIS}
+        # Native position units are linear, so convert once here and reuse
+        # the scale instead of asking the library on every read.
+        self.mm_per_step = {
+            name: self.device.get_axis(number).settings.convert_from_native_units(
+                "pos", 1, Units.LENGTH_MILLIMETRES)
+            for name, number in self.axes.items()
+        }
 
     def move(self, x, y, z, params):
         raise NotImplementedError
 
     def position(self):
-        mm = Units.LENGTH_MILLIMETRES
-        return {"x": self.x.get_position(mm), "y": self.y.get_position(mm), "z": self.z.get_position(mm)}
+        # One "get pos" to the whole device answers with every axis in one
+        # reply, one serial round trip instead of one per axis.
+        steps = self.device.generic_command("get pos").data.split()
+        return {name: float(steps[number - 1]) * self.mm_per_step[name] for name, number in self.axes.items()}
 
 
 def main() -> None:

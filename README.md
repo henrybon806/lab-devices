@@ -1,8 +1,8 @@
-# lab-experiments
+# lab-devices
 
-The real instrument nodes for the gantry. Each folder is one instrument and
-runs as a [labnode](https://github.com/henrybon806/labnode) HTTP node on the
-computer attached to that instrument. The gantry
+The real lab hardware: each instrument, and later the gantry itself. Each
+folder is one device and runs as a [labnode](https://github.com/henrybon806/labnode) HTTP node on the
+computer attached to that device. The gantry
 ([gantry-manager](../gantry-manager)) talks to them only over HTTP.
 
 ## Layout
@@ -18,7 +18,7 @@ requirements.txt  shared dependencies (labnode, pinned to a tag)
 ## Set up a lab computer
 
 ```bash
-git clone <this repo> && cd lab-experiments
+git clone <this repo> && cd lab-devices
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 .venv/bin/pip install -r <instrument>/requirements.txt   # if it has one

@@ -3,7 +3,7 @@
 The real instrument nodes for the gantry. Each folder is one instrument and
 runs as a [labnode](https://github.com/henrybon806/labnode) HTTP node on the
 computer attached to that instrument. The gantry
-([gantryManager](../gantryManager)) talks to them only over HTTP.
+([gantry-manager](../gantry-manager)) talks to them only over HTTP.
 
 ## Layout
 

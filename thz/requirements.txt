@@ -1,0 +1,8 @@
+# Clicks the T3DS GUI's buttons. Needs AutoHotkey itself installed on the
+# machine, on PATH.
+ahk
+# Reads the GUI's status line and stage position off the screen. mss.MSS()
+# became the concrete class in 10.2; before that it was abstract.
+mss>=10.2.0
+pillow
+pytesseract

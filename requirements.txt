@@ -1,3 +1,4 @@
 # Shared by every device. A device with extra dependencies (drivers,
 # vendor SDKs) lists them in its own folder's requirements.txt.
 labnode @ git+https://github.com/henrybon806/labnode.git@labnode-v0.2.0
+zaber_motion

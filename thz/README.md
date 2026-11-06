@@ -61,15 +61,63 @@ anywhere else; display resolution or scaling changes break them silently.
 .venv/Scripts/python thz/node.py --port 8001
 ```
 
-For the gantry on another computer to reach it, listen wider and set a token
-(the gantry must use the same one):
+For the gantry on another computer to reach it, listen on every interface.
+`LABNODE_TOKEN` is then a password on `/start`, `/stop` and `/taken`
+(`/status` stays open either way), and the gantry must be given the same one:
 
 ```bash
 LABNODE_TOKEN=secret .venv/Scripts/python thz/node.py --host 0.0.0.0 --port 8001
 ```
 
+Or skip the token, which means anything that can reach port 8001 can start
+and stop scans:
+
+```bash
+.venv/Scripts/python thz/node.py --host 0.0.0.0 --port 8001 --insecure
+```
+
+That is a flag, not a code change: drop `--insecure` and set `LABNODE_TOKEN`
+to go back. The node prints which mode it is in on startup.
+
 `http://127.0.0.1:8001/docs` is the whole API in a browser, if you would
 rather click than curl.
+
+## Reaching it from another computer
+
+On this computer, `hostname` gives its name and `ipconfig` gives its **IPv4
+Address** and **Connection-specific DNS Suffix**; name plus suffix (e.g.
+`zorbot_thz.dhcp.lbl.gov`) is the address to use, with the IP as a fallback.
+What the node prints, `0.0.0.0`, means "every interface" and is not dialable.
+
+From the other computer:
+
+```bash
+curl -s zorbot_thz.dhcp.lbl.gov:8001/status
+```
+
+JSON back means you are done, and that string is what goes in the station's
+`address` in `gantry-manager/data/presets.json`. Otherwise:
+
+| What you see | What it means |
+|---|---|
+| `Could not resolve host` | DNS does not know the name; use the IPv4 address. |
+| `No route to host`, or a timeout | Different subnets, or the machines cannot see each other. Try `ping <ip>`. |
+| `Connection refused` | Reachable, but nothing is listening on that port. |
+
+`Connection refused` while the node is clearly running is nearly always one
+of two things. Check what it bound to, which should be `0.0.0.0:8001` and not
+`127.0.0.1:8001`:
+
+```
+netstat -ano | findstr :8001
+```
+
+Or Windows Firewall is dropping the connection before the node sees it. In an
+Administrator prompt:
+
+```
+netsh advfirewall firewall add rule name="labnode 8001" dir=in action=allow protocol=TCP localport=8001
+```
 
 ## A simple test
 

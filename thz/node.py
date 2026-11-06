@@ -11,7 +11,8 @@ filename, so a run here means "whatever is currently configured".
     LABNODE_TOKEN=... .venv/bin/python thz/node.py --host 0.0.0.0 --port 8001
 
 Listening on anything other than localhost (so the gantry computer can reach
-it) needs LABNODE_TOKEN set, and the gantry must use the same token.
+it) needs LABNODE_TOKEN set, and the gantry must use the same token. On a lab
+network where that is more trouble than it is worth, --insecure drops it.
 """
 
 from __future__ import annotations
@@ -93,14 +94,19 @@ def main() -> None:
     parser.add_argument("--port", type=int, default=8001)
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--tesseract-cmd", default=os.environ.get("TESSERACT_CMD", TESSERACT_CMD))
+    parser.add_argument("--insecure", action="store_true",
+                        help=f"listen beyond localhost without {TOKEN_ENV}: anything that can "
+                             "reach the port can start and stop scans")
     args = parser.parse_args()
     token = os.environ.get(TOKEN_ENV) or None
-    if token is None and args.host not in LOOPBACK_HOSTS:
-        parser.error(f"set {TOKEN_ENV} before listening on {args.host}")
+    if token is None and args.host not in LOOPBACK_HOSTS and not args.insecure:
+        parser.error(f"set {TOKEN_ENV} before listening on {args.host}, or pass --insecure")
 
     import uvicorn
 
     print(f"{NAME} listening on http://{args.host}:{args.port}", flush=True)
+    if token is None and args.host not in LOOPBACK_HOSTS:
+        print("  no token: anything on the network can start a scan", flush=True)
     # The gantry polls several times a second, so skip per-request logs.
     uvicorn.run(create_app(THZ(args.tesseract_cmd), token), host=args.host, port=args.port, access_log=False)
 

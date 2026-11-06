@@ -1,0 +1,23 @@
+thz/README.md
+  s_3e2769669a32fa::t_4db79c3e3ae928 64-66,72-81,85-120
+  s_3e2769669a32fa::t_a2bc3626b5084d 121
+thz/node.py
+  s_3e2769669a32fa::t_3fc351744f2017 14-15
+  s_3e2769669a32fa::t_68f14e26ed26ee 97-99,102-103,108-109
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b6e3c3f0458a4666041bb4025907d7523aafeda1",
+  "prompts": {},
+  "sessions": {
+    "s_3e2769669a32fa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "110d5acd-8510-4f3c-b026-b1c047f1830d",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Henry Bonomolo <hbono@berkeley.edu>"
+    }
+  }
+}

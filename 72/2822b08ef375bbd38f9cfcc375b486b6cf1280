@@ -1,0 +1,39 @@
+thz/requirements.txt
+  s_3e2769669a32fa::t_bd1b2d08fffd7d 7
+  s_3e2769669a32fa::t_f4aba8dc679fc8 1-2,4-6,8
+  s_3e2769669a32fa::t_f6fdfa55c1c84e 3
+smoke_test.py
+  s_3e2769669a32fa::t_365749a5661b73 4,22,67,71
+  s_3e2769669a32fa::t_65fbcfb9db711a 1-3,5-21,23-66,68-70,72-120
+thz/README.md
+  s_3e2769669a32fa::t_5be2a34148fe95 1-153
+thz/node.py
+  s_3e2769669a32fa::t_a2c8ae09964a96 3-8,26,29,84
+  s_3e2769669a32fa::t_dc17c2d87f0773 11,27,60,62-63,66-67,77
+  s_3e2769669a32fa::t_f4aba8dc679fc8 28,30,36-38,46-47,61,65,69,80,95,105
+  s_3e2769669a32fa::t_f6fdfa55c1c84e 1,9-10,12-14,17-20,23-25,31-35,39-40,44,50-53,56-59,64,68,72-74,78-79,81-83,85-94,96-104,106-107,109
+  s_3e2769669a32fa::t_918abcb745217f 45
+thz/t3ds.py
+  s_3e2769669a32fa::t_a2c8ae09964a96 1,3-18,21-52,54-58,60,62-75,77-105,107-115,118-121
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "722822b08ef375bbd38f9cfcc375b486b6cf1280",
+  "prompts": {},
+  "humans": {
+    "h_50e16a38985105": {
+      "author": "Henry Bonomolo <hbono@berkeley.edu>"
+    }
+  },
+  "sessions": {
+    "s_3e2769669a32fa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "110d5acd-8510-4f3c-b026-b1c047f1830d",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Henry Bonomolo <hbono@berkeley.edu>"
+    }
+  }
+}
